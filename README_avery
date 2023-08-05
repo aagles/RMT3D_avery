@@ -1,0 +1,29 @@
+##### Notes on compilation of RMT3D (7/24/2023) ##########
+
+
+# First make parent directory (call it whatever you want)
+mkdir RMT 
+
+git clone https://github.com/ylunalin/RMT3D.git
+git clone https://github.com/chr1shr/pgmg.git
+
+cp make_configs/config.mk.linux ./config.mk
+cp make_configs/config.mk.linux	../config.mk
+
+# add PGMG to path in Execs/Make.defs
+
+# Find
+grep -r MG3D_SETUP_ERROR
+grep -r MG3D_INTERNAL_ERROR
+grep -r MG3D_MATH_ERROR
+
+# replace MG3D with PGMG for all of the files
+sed -i 's/MG3D_MATH_ERROR/PGMG_MATH_ERROR/g' RMT3D/Utilities/mg_probs.hh
+
+# replace -lmg3d in RMT3D/Execs/Makefile (line 23) with -lpgmg
+
+module purge; module load openmpi/gcc/4.1.0
+
+cd Execs; make
+
+
